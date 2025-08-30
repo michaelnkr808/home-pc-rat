@@ -16,7 +16,9 @@ This project is an educational Python application designed to help me learn and 
 ---
 
 ## Getting Started
+- Place client.py on target machine
 - Edit "HOST" in client.py to your own ip
+- Run server -> Run client
 
 ### Prerequisites
 - Python 3.x installed on both client and server machines.
