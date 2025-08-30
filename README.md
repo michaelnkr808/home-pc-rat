@@ -17,8 +17,11 @@ This project is an educational Python application designed to help me learn and 
 
 ## Getting Started
 - Place client.py on target machine
-- Edit "HOST" in client.py to your own ip
+- Edit "HOST" in client.py to your own ip/virtual ip (if you want to use outside of LAN)
 - Run server -> Run client
+
+## Using outside of LAN
+- Install a VPN service like tailscale/hamachi
 
 ### Prerequisites
 - Python 3.x installed on both client and server machines.
