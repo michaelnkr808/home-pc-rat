@@ -1,16 +1,37 @@
 import socket
+import threading
 
 HOST = "0.0.0.0"
 PORT = 9999
+END_MARKER = "<END_OF_OUTPUT>"
+
+def recv_loop(conn):
+    buf = ""
+    while True:
+        chunk = conn.recv(4096)
+        if not chunk:
+            print("\nClient Disconnected")
+            break
+        buf += chunk.decode()
+        while END_MARKER in buf:
+            out, buf = buf.split(END_MARKER, 1)
+            if out:
+                print(f"\n{out}", end="")
+            print("Enter a command: ", end="", flush=True)
 
 server = socket.socket()
 server.bind((HOST, PORT))
 server.listen(5)
 
 conn, addr = server.accept()
-print("Connected ", addr)
+print(f"Connected to client: {addr}")
+threading.Thread(target=recv_loop, args=(conn,), daemon=True).start()
+
 
 while True:
     cmd = input("Enter a command: ")
+    if not cmd.strip():
+        continue
     conn.send(cmd.encode())
-    print(conn.recv(1024).decode)
+
+    
