@@ -2,21 +2,19 @@ import socket
 import platform, subprocess
 import threading
 import os
-from tkinter import CURRENT
 
 IS_WINDOWS = platform.system() == "Windows"
 HOST = "0.0.0.0"
 PORT = 9999
 END_MARKER = "<END_OF_OUTPUT>"
 CURRENT_DIR = os.getcwd()
-END_MARKER = "<END_OF_OUTPUT>"
 
 def execute_command(s, command):
     global CURRENT_DIR
 
     stripped = command.strip()
     if stripped == "":
-        s.sendall((""+END_MARKER).econde())
+        s.sendall((""+END_MARKER).encode())
         return
     
     if stripped == "cd" or stripped.startswith("cd"):
