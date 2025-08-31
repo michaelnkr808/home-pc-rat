@@ -8,7 +8,11 @@ END_MARKER = "<END_OF_OUTPUT>"
 def recv_loop(conn):
     buf = ""
     while True:
-        chunk = conn.recv(4096)
+        try:
+            chunk = conn.recv(4096)
+        except OSError:
+            print("\nReciever socket closed")
+            break
         if not chunk:
             print("\nClient Disconnected")
             break
@@ -17,7 +21,6 @@ def recv_loop(conn):
             out, buf = buf.split(END_MARKER, 1)
             if out:
                 print(f"\n{out}", end="")
-            print("Enter a command: ", end="", flush=True)
 
 server = socket.socket()
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -34,12 +37,16 @@ while True:
     if not cmd.strip():
         continue
     try:
-        server.send(cmd.encode())
+        conn.send(cmd.encode())
     except (BrokenPipeError, OSError):
         print("Client disconnected, retrying...")
         try:
-            conn.close()
+            conn.shutdown(socket.SHUT_RDWR)
         except Exception:
+            pass
+        try:
+            conn.close()
+        except OSError:
             pass
         conn, addr = server.accept()
         print(f"Reconnected {addr}")
