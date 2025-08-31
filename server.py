@@ -20,7 +20,7 @@ def recv_loop(conn):
             print("Enter a command: ", end="", flush=True)
 
 server = socket.socket()
-server.setsockopt(socket.SQL_SOCKET, socket.SO_REUSEADDR, 1)
+server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server.bind((HOST, PORT))
 server.listen(5)
 
