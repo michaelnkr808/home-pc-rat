@@ -11,13 +11,6 @@ END_MARKER = "<END_OF_OUTPUT>"
 CURRENT_DIR = os.getcwd()
 END_MARKER = "<END_OF_OUTPUT>"
 
-def run_in_shell(command, cwd):
-    if IS_WINDOWS:
-        cmd = ["powershell.exe", "-NoProfile", "-Command", command]
-    else:
-        cmd = ["/bin/sh", "-lc", command]
-    return subprocess.run(cmd, capture_output=True, text=True, cwd=cwd)
-
 def execute_command(s, command):
     global CURRENT_DIR
 
