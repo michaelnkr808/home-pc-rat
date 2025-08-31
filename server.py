@@ -21,6 +21,7 @@ def recv_loop(conn):
             out, buf = buf.split(END_MARKER, 1)
             if out:
                 print(f"\n{out}", end="")
+            print("Enter a command: ", end="", flush=True)
 
 server = socket.socket()
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -30,10 +31,11 @@ server.listen(5)
 conn, addr = server.accept()
 print(f"Connected to client: {addr}")
 threading.Thread(target=recv_loop, args=(conn,), daemon=True).start()
+print("Enter a command: ", end ="", flush=True)
 
 
 while True:
-    cmd = input("Enter a command: ")
+    cmd = input()
     if not cmd.strip():
         continue
     try:
